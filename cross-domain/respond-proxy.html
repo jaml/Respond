@@ -43,6 +43,16 @@
 				if (!req){
 					return;
 				}
+
+				// Basic check to avoid XSS
+				// just ensures that this is not javascript: or data:
+				// Use a whitelist for specific domains
+				if (url.substr(0,4).toLowerCase() !== "http") {
+					// you may want to log to server/send alert here
+
+					return;
+				}
+
 				req.open( "GET", url, true );
 				req.onreadystatechange = function () {
 					if ( req.readyState != 4 || req.status != 200 && req.status != 304 ){
